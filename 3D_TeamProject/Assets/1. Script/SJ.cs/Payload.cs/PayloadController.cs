@@ -53,7 +53,7 @@ public class PayloadController : MonoBehaviour
         if (Keyboard.current.f1Key.isPressed)
         {
             TakeDamage(1);
-        } 
+        }
     }
 
     private void Move()
@@ -124,15 +124,5 @@ public class PayloadController : MonoBehaviour
         Debug.Log("화물이 파괴되었습니다.");
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            moveSpeed = 0f; // 적과 부딪히면 멈춤
-        }
-        else
-        {
-            moveSpeed = defaultSpeed; // 다른 곳에 부딪히면 원래 속도로 복구
-        }
-    }
+
 }
