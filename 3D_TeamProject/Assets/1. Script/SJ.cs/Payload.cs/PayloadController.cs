@@ -20,6 +20,8 @@ public class PayloadController : MonoBehaviour
     [Header("화물 진행도 UI")]
     public Slider moveSlider;
 
+    private float defaultSpeed; // 원래 속도를 저장할 변수
+
     private Vector3 startPosition;
 
     private bool isDestroyed = false;
@@ -61,8 +63,7 @@ public class PayloadController : MonoBehaviour
             return;
 
         // 현재까지 이동한 거리
-        float currentDistance =
-            Vector3.Distance(startPosition, transform.position);
+        float currentDistance = Vector3.Distance(startPosition, transform.position);
 
         // 목적지 도착
         if (currentDistance >= moveDistance)
@@ -80,8 +81,7 @@ public class PayloadController : MonoBehaviour
     private void UpdateMoveSlider()
     {
         // 현재까지 이동한 거리
-        float currentDistance =
-            Vector3.Distance(startPosition, transform.position);
+        float currentDistance = Vector3.Distance(startPosition, transform.position);
 
         // 0 ~ 1 사이의 진행도로 변환
         float progress = currentDistance / moveDistance;
@@ -122,5 +122,17 @@ public class PayloadController : MonoBehaviour
         isDestroyed = true;
 
         Debug.Log("화물이 파괴되었습니다.");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            moveSpeed = 0f; // 적과 부딪히면 멈춤
+        }
+        else
+        {
+            moveSpeed = defaultSpeed; // 다른 곳에 부딪히면 원래 속도로 복구
+        }
     }
 }
