@@ -9292,6 +9292,7 @@ MonoBehaviour:
   hpImage: {fileID: 1043202220}
   hpText: {fileID: 448385970}
   moveSlider: {fileID: 547041039}
+  isDestroyed: 0
 --- !u!1 &1166057940
 GameObject:
   m_ObjectHideFlags: 0
