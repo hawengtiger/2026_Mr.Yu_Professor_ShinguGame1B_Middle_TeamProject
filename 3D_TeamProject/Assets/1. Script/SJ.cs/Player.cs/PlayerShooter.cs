@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerShooter : MonoBehaviour
 {
+    public WeaponSelect weaponSelect;
     public GameObject bulletPrefab;
     public Transform firePoint;
     public float bulletSpeed = 20f;
@@ -12,24 +13,21 @@ public class PlayerShooter : MonoBehaviour
 
     public void OnAttack(InputValue value)
     {
-        if (Time.timeScale == 0f) return;       // 게임 오버되면 무시
-        if (Time.time < lastFireTime + fireCooldown) return;
-        lastFireTime = Time.time;
+        switch (weaponSelect.currentWeapon)
+        {
+            case WeaponType.Main:
+                Debug.Log("근거리 공격!");
+                break;
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.linearVelocity = firePoint.right * bulletSpeed + firePoint.up * 2;
-    }
+            case WeaponType.Sub:
+                if (Time.timeScale == 0f) return;       // 게임 오버되면 무시
+                if (Time.time < lastFireTime + fireCooldown) return;
+                lastFireTime = Time.time;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+                GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+                Rigidbody rb = bullet.GetComponent<Rigidbody>();
+                rb.linearVelocity = firePoint.right * bulletSpeed + firePoint.up * 2;
+                break;
+        }
     }
 }

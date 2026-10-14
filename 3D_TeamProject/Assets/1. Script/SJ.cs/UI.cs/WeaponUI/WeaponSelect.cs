@@ -3,6 +3,12 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using DG.Tweening;
 
+public enum WeaponType
+{
+    Main,   // 근거리 무기
+    Sub     // 원거리 무기
+}
+
 public class WeaponSelect : MonoBehaviour
 {
     [Header("무기 이미지")]
@@ -25,16 +31,15 @@ public class WeaponSelect : MonoBehaviour
     private Vector2 mainPosition;
     private Vector2 subPosition;
 
-    private bool isMainWeapon = true;
+    public WeaponType currentWeapon { get; private set; } = WeaponType.Main;
 
     private void Start()
     {
         mainPosition = mainWeaponImage.rectTransform.anchoredPosition;
         subPosition = subWeaponImage.rectTransform.anchoredPosition;
 
-        mainWeaponImage.color =new Color(1f, 1f, 1f, selectedAlpha);
-
-        subWeaponImage.color =new Color(1f, 1f, 1f, unselectedAlpha);
+        mainWeaponImage.color = new Color(1f, 1f, 1f, selectedAlpha);
+        subWeaponImage.color = new Color(1f, 1f, 1f, unselectedAlpha);
 
         // 처음에는 주무기 궁극기
         ultimateImage.sprite = mainUltimateSprite;
@@ -42,8 +47,11 @@ public class WeaponSelect : MonoBehaviour
 
     private void Update()
     {
-        bool key1 = Keyboard.current.digit1Key.wasPressedThisFrame || Mouse.current.forwardButton.wasPressedThisFrame;
-        bool key2 = Keyboard.current.digit2Key.wasPressedThisFrame || Mouse.current.backButton.wasPressedThisFrame;
+        bool key1 = (Keyboard.current != null && Keyboard.current.digit1Key.wasPressedThisFrame)
+            || (Mouse.current != null && Mouse.current.forwardButton.wasPressedThisFrame);
+
+        bool key2 = (Keyboard.current != null && Keyboard.current.digit2Key.wasPressedThisFrame)
+            || (Mouse.current != null && Mouse.current.backButton.wasPressedThisFrame);
 
         // 1번과 2번 동시 입력 금지
         if (key1 && key2)
@@ -53,58 +61,58 @@ public class WeaponSelect : MonoBehaviour
 
         if (key1)
         {
-            SelectMainWeapon();
+            SelectWeapon(WeaponType.Main);
         }
 
         if (key2)
         {
-            SelectSubWeapon();
+            SelectWeapon(WeaponType.Sub);
         }
     }
 
-    private void SelectMainWeapon()
+    public void SelectWeapon(WeaponType weapon)
     {
-        if (isMainWeapon)
+        if (currentWeapon == weapon)
             return;
 
-        isMainWeapon = true;
+        currentWeapon = weapon;
 
+        mainWeaponImage.rectTransform.DOKill();
+        subWeaponImage.rectTransform.DOKill();
         mainWeaponImage.DOKill();
         subWeaponImage.DOKill();
 
-        mainWeaponImage.rectTransform.DOAnchorPos(mainPosition, moveDuration);
+        switch (currentWeapon)
+        {
+            case WeaponType.Main:
 
-        subWeaponImage.rectTransform.DOAnchorPos(subPosition, moveDuration);
+                mainWeaponImage.rectTransform.DOAnchorPos(mainPosition, moveDuration);
+                subWeaponImage.rectTransform.DOAnchorPos(subPosition, moveDuration);
 
-        mainWeaponImage.DOFade(selectedAlpha, moveDuration);
-        subWeaponImage.DOFade(unselectedAlpha, moveDuration);
+                mainWeaponImage.DOFade(selectedAlpha, moveDuration);
+                subWeaponImage.DOFade(unselectedAlpha, moveDuration);
 
-        mainWeaponImage.transform.SetAsLastSibling();
+                mainWeaponImage.transform.SetAsLastSibling();
 
-        // 근거리 궁극기로 변경
-        ultimateImage.sprite = mainUltimateSprite;
-    }
+                // 근거리 궁극기로 변경
+                ultimateImage.sprite = mainUltimateSprite;
 
-    private void SelectSubWeapon()
-    {
-        if (!isMainWeapon)
-            return;
+                break;
 
-        isMainWeapon = false;
+            case WeaponType.Sub:
 
-        mainWeaponImage.DOKill();
-        subWeaponImage.DOKill();
+                mainWeaponImage.rectTransform.DOAnchorPos(subPosition, moveDuration);
+                subWeaponImage.rectTransform.DOAnchorPos(mainPosition, moveDuration);
 
-        mainWeaponImage.rectTransform.DOAnchorPos(subPosition, moveDuration);
+                mainWeaponImage.DOFade(unselectedAlpha, moveDuration);
+                subWeaponImage.DOFade(selectedAlpha, moveDuration);
 
-        subWeaponImage.rectTransform.DOAnchorPos(mainPosition, moveDuration);
+                subWeaponImage.transform.SetAsLastSibling();
 
-        mainWeaponImage.DOFade(unselectedAlpha, moveDuration);
-        subWeaponImage.DOFade(selectedAlpha, moveDuration);
+                // 원거리 궁극기로 변경
+                ultimateImage.sprite = subUltimateSprite;
 
-        subWeaponImage.transform.SetAsLastSibling();
-
-        // 원거리 궁극기로 변경
-        ultimateImage.sprite = subUltimateSprite;
+                break;
+        }
     }
 }

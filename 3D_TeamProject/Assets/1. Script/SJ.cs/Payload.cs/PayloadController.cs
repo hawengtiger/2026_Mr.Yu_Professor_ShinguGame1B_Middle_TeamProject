@@ -20,11 +20,9 @@ public class PayloadController : MonoBehaviour
     [Header("화물 진행도 UI")]
     public Slider moveSlider;
 
-    private float defaultSpeed; // 원래 속도를 저장할 변수
-
     private Vector3 startPosition;
 
-    private bool isDestroyed = false;
+    public bool isDestroyed = false;
     private bool isArrived = false;
 
     private void Start()
@@ -121,7 +119,14 @@ public class PayloadController : MonoBehaviour
     {
         isDestroyed = true;
 
-        Debug.Log("화물이 파괴되었습니다.");
+        if (isDestroyed)
+        {
+            this.gameObject.SetActive(false);
+
+            GameOverScreenUI gameOver = FindAnyObjectByType<GameOverScreenUI>();
+            gameOver.ActiveGameOverScreen();
+        }
+;
     }
 
 

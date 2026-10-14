@@ -8,11 +8,13 @@ public class SettingScreenUI : MonoBehaviour
     public GameObject panel;
     public Image settingScreen;
 
+    private PayloadController payload;
     private bool isOpen = false;
     private bool isTweening = false;
 
     void Start()
     {
+        payload = FindAnyObjectByType<PayloadController>();
         panel.SetActive(false);
         settingScreen.gameObject.SetActive(false);
         settingScreen.rectTransform.localScale = Vector3.one * 0.01f;
@@ -22,7 +24,7 @@ public class SettingScreenUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isTweening)
+            if (isTweening || payload.isDestroyed)
                 return;
 
             if (isOpen)
