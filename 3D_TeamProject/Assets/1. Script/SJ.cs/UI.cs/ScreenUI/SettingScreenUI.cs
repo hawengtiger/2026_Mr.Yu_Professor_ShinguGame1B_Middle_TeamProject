@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class SettingScreenUI : MonoBehaviour
 {
@@ -74,8 +75,7 @@ public class SettingScreenUI : MonoBehaviour
         if (!isOpen || isTweening)
             return;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        MainSceneUnLockMouse();
 
         SoundManager.Instance.PlaySFX("Setting");
 
@@ -95,5 +95,13 @@ public class SettingScreenUI : MonoBehaviour
                 panel.SetActive(false);
                 isTweening = false;
             });
+    }
+
+    void MainSceneUnLockMouse()
+    {
+        if (SceneManager.GetActiveScene().name == "MainScene") return;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

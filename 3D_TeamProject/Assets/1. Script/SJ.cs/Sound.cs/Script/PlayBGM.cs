@@ -9,7 +9,7 @@ public class PlayBGM : MonoBehaviour
     public string bgmName;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    void Start()
     {
         if (bgmName == null) return;
 

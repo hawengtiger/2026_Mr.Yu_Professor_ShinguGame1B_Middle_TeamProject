@@ -14,4 +14,13 @@ public class SettingUI : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
     }
+
+    public void GameQuit()
+    {
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                                                    Application.Quit();
+        #endif
+    }
 }

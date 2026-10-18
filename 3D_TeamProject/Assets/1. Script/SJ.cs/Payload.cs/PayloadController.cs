@@ -13,6 +13,9 @@ public class PayloadController : MonoBehaviour
     public int maxHp = 3500;
     public int currentHp;
 
+    [Header("게임 종료 판넬")]
+    public GameObject clearPanel;
+    
     [Header("화물 체력 UI")]
     public Image hpImage;
     public TextMeshProUGUI hpText;
@@ -27,6 +30,8 @@ public class PayloadController : MonoBehaviour
 
     private void Start()
     {
+        clearPanel.SetActive(false);
+
         // 시작 위치 저장
         startPosition = transform.position;
 
@@ -68,7 +73,14 @@ public class PayloadController : MonoBehaviour
         {
             isArrived = true;
 
-            Debug.Log("화물이 목적지에 도착했습니다.");
+            if (isArrived)
+            {
+                clearPanel.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
+                Debug.Log("화물이 목적지에 도착했습니다.");
+            }
             return;
         }
 

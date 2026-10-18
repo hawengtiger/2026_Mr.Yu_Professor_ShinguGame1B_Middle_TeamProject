@@ -7,9 +7,12 @@ public class Bullet : MonoBehaviour
     public string targetTag = "Enemy";      // 맞히면 데미지
     public string ownerTag = "Player";        // 쏜 쪽은 통과
 
+    PayloadController payload;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        payload = FindAnyObjectByType<PayloadController>();
         Destroy(gameObject, lifeTime);
     }
 
@@ -17,11 +20,16 @@ public class Bullet : MonoBehaviour
     {
         if (other.isTrigger) return;
         if (other.CompareTag(ownerTag)) return;
-        
+
         if (other.CompareTag(targetTag))
         {
             Health hp = other.GetComponent<Health>();
             if (hp != null) hp.TakeDamage(damage);
+        }
+
+        if (other.CompareTag(targetTag = "Player"))
+        {
+            payload.TakeDamage(damage);
         }
         Destroy(gameObject);
     }
