@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   damage: 1
-  lifeTime: 2
+  lifeTime: 1
   targetTag: Enemy
   ownerTag: Player
 --- !u!54 &6341561703215760590

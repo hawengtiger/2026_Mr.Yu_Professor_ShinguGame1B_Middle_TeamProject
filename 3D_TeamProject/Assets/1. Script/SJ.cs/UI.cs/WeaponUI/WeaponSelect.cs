@@ -11,12 +11,15 @@ public enum WeaponType
 
 public class WeaponSelect : MonoBehaviour
 {
+    public GameObject sword;
+
     [Header("¹«±â ÀÌ¹ÌÁö")]
     public Image mainWeaponImage;
     public Image subWeaponImage;
 
     [Header("±Ã±Ø±â ÀÌ¹ÌÁö")]
     public Image ultimateImage;
+    public Image ultimateImage2;
 
     public Sprite mainUltimateSprite; // ±Ù°Å¸® ±Ã±Ø±â
     public Sprite subUltimateSprite;  // ¿ø°Å¸® ±Ã±Ø±â
@@ -43,6 +46,7 @@ public class WeaponSelect : MonoBehaviour
 
         // Ã³À½¿¡´Â ÁÖ¹«±â ±Ã±Ø±â
         ultimateImage.sprite = mainUltimateSprite;
+        ultimateImage2.sprite = mainUltimateSprite;
     }
 
     private void Update()
@@ -61,11 +65,13 @@ public class WeaponSelect : MonoBehaviour
 
         if (key1)
         {
+            sword.SetActive(true);
             SelectWeapon(WeaponType.Main);
         }
 
         if (key2)
         {
+            sword.SetActive(false);
             SelectWeapon(WeaponType.Sub);
         }
     }
@@ -96,6 +102,7 @@ public class WeaponSelect : MonoBehaviour
 
                 // ±Ù°Å¸® ±Ã±Ø±â·Î º¯°æ
                 ultimateImage.sprite = mainUltimateSprite;
+                ultimateImage2.sprite = mainUltimateSprite;
 
                 break;
 
@@ -111,6 +118,7 @@ public class WeaponSelect : MonoBehaviour
 
                 // ¿ø°Å¸® ±Ã±Ø±â·Î º¯°æ
                 ultimateImage.sprite = subUltimateSprite;
+                ultimateImage2.sprite = subUltimateSprite;
 
                 break;
         }

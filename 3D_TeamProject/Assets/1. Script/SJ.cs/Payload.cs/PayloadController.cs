@@ -22,6 +22,7 @@ public class PayloadController : MonoBehaviour
 
     [Header("화물 진행도 UI")]
     public Slider moveSlider;
+    public TextMeshProUGUI moveText;
 
     private Vector3 startPosition;
 
@@ -79,6 +80,8 @@ public class PayloadController : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
 
+                Time.timeScale = 0f;
+
                 Debug.Log("화물이 목적지에 도착했습니다.");
             }
             return;
@@ -98,6 +101,8 @@ public class PayloadController : MonoBehaviour
 
         // Slider에 적용
         moveSlider.value = Mathf.Clamp01(progress);
+
+        moveText.text = $"{currentDistance:0}M / {moveDistance:0}M";
     }
 
     public void TakeDamage(int damage)
