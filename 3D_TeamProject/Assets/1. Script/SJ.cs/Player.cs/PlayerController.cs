@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
 
     #region | public 변수 | ======================================
 
+    [Header("애니메이션")]
+    public Animator animator;
+
     [Header("플레이어 이동")]
     public float moveSpeed = 5f;
     public float jumpPower = 8f;
@@ -111,10 +114,10 @@ public class PlayerController : MonoBehaviour
     {
         PlayerMovement();
 
+        PlayerAnimation(); // 추가
+
         CameraRotation();
-
         CameraZoom();
-
         CameraCollision();
     }
 
@@ -132,7 +135,10 @@ public class PlayerController : MonoBehaviour
 
         verticalVelocity += gravity * Time.deltaTime;
 
-        Vector3 move = transform.forward * moveInput.y + transform.right * moveInput.x;
+        Vector3 move = transform.forward * moveInput.y
+                     + transform.right * moveInput.x;
+
+        move = Vector3.ClampMagnitude(move, 1f);
 
         float speed = moveSpeed;
 
@@ -262,6 +268,24 @@ public class PlayerController : MonoBehaviour
     #endregion
 
 
+
+    #region 플레이어 애니메이션
+
+    private void PlayerAnimation()
+    {
+        if (animator == null) return;
+
+        float speed = 0f;
+
+        if (moveInput.sqrMagnitude > 0.01f)
+        {
+            speed = isRunning ? 1f : 0.5f;
+        }
+
+        animator.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
+    }
+
+    #endregion
 
     #region Addition. 카메라 달리기 효과
 

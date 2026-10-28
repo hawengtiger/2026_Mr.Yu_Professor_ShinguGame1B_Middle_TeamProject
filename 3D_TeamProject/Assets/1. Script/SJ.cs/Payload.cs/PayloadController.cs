@@ -5,6 +5,10 @@ using TMPro;
 
 public class PayloadController : MonoBehaviour
 {
+    [Header("바퀴 회전")]
+    public Transform[] wheels;
+    public float wheelRotationSpeed = 360f;
+
     [Header("화물 이동")]
     public float moveSpeed = 1.75f;
     public float moveDistance = 525f;
@@ -51,10 +55,10 @@ public class PayloadController : MonoBehaviour
     private void Update()
     {
         Move();
+        RotateWheels();
         UpdateMoveSlider();
 
-        // 테스트용 : F1을 누르면 화물 체력 100 감소
-        if (Keyboard.current.f1Key.isPressed)
+        if (Keyboard.current != null && Keyboard.current.f1Key.isPressed)
         {
             TakeDamage(1);
         }
@@ -146,5 +150,26 @@ public class PayloadController : MonoBehaviour
 ;
     }
 
+    private void RotateWheels()
+    {
+        // 화물이 파괴되거나 도착하면 바퀴 정지
+        if (isDestroyed || isArrived)
+            return;
 
+        // 화물이 움직이지 않으면 바퀴 정지
+        if (moveSpeed <= 0f)
+            return;
+
+        foreach (Transform wheel in wheels)
+        {
+            if (wheel == null) continue;
+
+            wheel.Rotate(
+                0f,
+                wheelRotationSpeed * Time.deltaTime,
+                0f,
+                Space.Self
+            );
+        }
+    }
 }

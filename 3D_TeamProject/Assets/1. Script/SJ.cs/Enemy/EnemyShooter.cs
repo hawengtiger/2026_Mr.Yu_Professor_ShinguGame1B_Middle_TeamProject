@@ -16,6 +16,12 @@ public class EnemyShooter : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // 자신의 모든 직속 자식 오브젝트 회전
+        foreach (Transform child in transform)
+        {
+            child.localRotation *= Quaternion.Euler(0f, 180f, 0f);
+        }
+
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) player = p.transform;
         lastFireTime = Time.time;

@@ -6,6 +6,9 @@ using DG.Tweening;
 
 public class MeleeUltimate : MonoBehaviour
 {
+    [Header("플레이어 애니메이션")]
+    public Animator animator;
+
     [Header("궁극기 VFX")]
     public GameObject ultimateVFX;
     public Transform vfxSpawnPoint;
@@ -49,6 +52,11 @@ public class MeleeUltimate : MonoBehaviour
             return false;
 
         isUsing = true;
+
+        // 궁극기 공격 애니메이션 활성화
+        if (animator != null)
+            animator.SetTrigger("Attack");
+
         skillCoroutine = StartCoroutine(SkillRoutine());
 
         return true;
@@ -128,6 +136,10 @@ public class MeleeUltimate : MonoBehaviour
         if (swordTrail != null)
             swordTrail.emitting = false;
 
+        // 공격 애니메이션 종료
+        if (animator != null)
+            animator.ResetTrigger("Attack");
+
         isUsing = false;
         skillCoroutine = null;
     }
@@ -173,6 +185,9 @@ public class MeleeUltimate : MonoBehaviour
         if (swordTrail != null)
             swordTrail.emitting = false;
 
+        if (animator != null)
+            animator.ResetTrigger("Attack");
+        
         isUsing = false;
     }
 

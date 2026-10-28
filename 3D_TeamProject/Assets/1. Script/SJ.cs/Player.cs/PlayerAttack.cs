@@ -7,6 +7,9 @@ using Unity.VisualScripting;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [Header("공격 애니메이션")]
+    public Animator animator;
+
     [Header("칼날 잔상")]
     public TrailRenderer swordTrail;
     public Transform swordPivot;
@@ -53,12 +56,43 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    // 공격 애니메이션에서 검기 시작
+    public void StartSwordTrail()
+    {
+        if (swordTrail == null) return;
+
+        swordTrail.Clear();
+        swordTrail.emitting = true;
+    }
+
+    // 공격 애니메이션에서 검기 종료
+    public void StopSwordTrail()
+    {
+        if (swordTrail == null) return;
+
+        swordTrail.emitting = false;
+    }
+
+    // 공격 애니메이션 종료
+    public void EndAttack()
+    {
+        StopSwordTrail();
+        isAttacking = false;
+    }
+
+
     public void ShoartAttack()
     {
         if (isAttacking) return;
 
         isAttacking = true;
         hitEnemies.Clear();
+
+        // 근거리 공격 애니메이션 실행
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
+        }
 
         swordPivot.DOKill();
 

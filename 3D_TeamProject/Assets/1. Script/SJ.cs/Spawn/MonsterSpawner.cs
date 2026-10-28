@@ -59,7 +59,7 @@ public class MonsterSpawner : MonoBehaviour
         Vector3 spawnPosition = transform.position +
             new Vector3(randomPosition.x, 0f, randomPosition.y);
 
-        Instantiate(monster, spawnPosition, Quaternion.identity);
+        Instantiate(monster, spawnPosition, monster.transform.rotation);
     }
 
     private void OnDrawGizmosSelected()
