@@ -5,6 +5,9 @@ using TMPro;
 
 public class PayloadController : MonoBehaviour
 {
+    [Header("클리어 결과 UI")]
+    public TextMeshProUGUI clearHpText;
+    public TextMeshProUGUI rankingText;
 
     [Header("바퀴 회전")]
     public Transform[] wheels;
@@ -20,7 +23,7 @@ public class PayloadController : MonoBehaviour
 
     [Header("게임 종료 판넬")]
     public GameObject clearPanel;
-    
+
     [Header("화물 체력 UI")]
     public Image hpImage;
     public TextMeshProUGUI hpText;
@@ -79,16 +82,18 @@ public class PayloadController : MonoBehaviour
         {
             isArrived = true;
 
-            if (isArrived)
-            {
-                clearPanel.SetActive(true);
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+            // 클리어 결과 출력
+            UpdateClearUI();
 
-                Time.timeScale = 0f;
+            clearPanel.SetActive(true);
 
-                Debug.Log("화물이 목적지에 도착했습니다.");
-            }
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            Time.timeScale = 0f;
+
+            Debug.Log($"화물 도착! HP : {currentHp}, Ranking : {GetRanking()}");
+
             return;
         }
 
@@ -149,6 +154,24 @@ public class PayloadController : MonoBehaviour
             gameOver.ActiveGameOverScreen();
         }
 ;
+    }
+
+    private string GetRanking()
+    {
+        if (currentHp >= 3500) return "S+";
+        if (currentHp >= 3150) return "S";
+        if (currentHp >= 2625) return "A";
+        if (currentHp >= 1750) return "B";
+        if (currentHp >= 875) return "C";
+        if (currentHp >= 1) return "D";
+
+        return "F";
+    }
+
+    private void UpdateClearUI()
+    {
+        clearHpText.text = $"HP : {currentHp} / {maxHp}";
+        rankingText.text = $"Ranking : {GetRanking()}";
     }
 
     private void RotateWheels()
