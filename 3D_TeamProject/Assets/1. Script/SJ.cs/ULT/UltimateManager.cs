@@ -5,6 +5,9 @@ using TMPro;
 
 public class UltimateManager : MonoBehaviour
 {
+    [Header("±Ù°Å¸® ±Ã±Ø±â")]
+    public MeleeUltimate meleeUltimate;
+
     [Header("¹«±â")]
     public WeaponSelect weaponSelect;
 
@@ -27,6 +30,12 @@ public class UltimateManager : MonoBehaviour
             Keyboard.current.eKey.wasPressedThisFrame)
         {
             OnUltimate();
+        }
+
+        if (Keyboard.current != null &&
+    Keyboard.current.f2Key.wasPressedThisFrame)
+        {
+            meleeUltimate.UseSkill();
         }
     }
 
@@ -52,7 +61,8 @@ public class UltimateManager : MonoBehaviour
         switch (weaponSelect.currentWeapon)
         {
             case WeaponType.Main:
-                MainSkill();
+                if (meleeUltimate == null || !meleeUltimate.UseSkill())
+                    return;
                 break;
 
             case WeaponType.Sub:
@@ -68,7 +78,9 @@ public class UltimateManager : MonoBehaviour
 
     private void MainSkill()
     {
-        Debug.Log("±Ù°Å¸® ±Ã±Ø±â ½ºÅ³ »ç¿ë!");
+        if (meleeUltimate == null) return;
+
+        meleeUltimate.UseSkill();
     }
 
     private void SubSkill()

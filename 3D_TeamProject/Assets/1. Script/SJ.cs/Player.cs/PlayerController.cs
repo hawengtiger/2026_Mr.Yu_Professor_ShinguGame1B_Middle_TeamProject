@@ -157,6 +157,8 @@ public class PlayerController : MonoBehaviour
 
     private void CameraRotation()
     {
+        if (Time.timeScale == 0f) return;
+
         // ÁÂ¿ì È¸Àü
         transform.Rotate(0f, lookInput.x * mouseSensitivity, 0f);
 
