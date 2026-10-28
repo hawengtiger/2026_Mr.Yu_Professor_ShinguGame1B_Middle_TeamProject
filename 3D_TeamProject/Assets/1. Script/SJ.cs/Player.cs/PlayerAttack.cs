@@ -43,6 +43,7 @@ public class PlayerAttack : MonoBehaviour
         switch (weaponSelect.currentWeapon)
         {
             case WeaponType.Main:
+                SoundManager.Instance.PlaySFX("Sword");
                 ShoartAttack();
                 break;
 
@@ -54,6 +55,14 @@ public class PlayerAttack : MonoBehaviour
 
                 GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
                 Rigidbody rb = bullet.GetComponent<Rigidbody>();
+                // 근거리 공격 애니메이션 실행
+                if (animator != null)
+                {
+                    animator.SetTrigger("Attack");
+                }
+
+                SoundManager.Instance.PlaySFX("Dagger");
+
                 rb.linearVelocity =
                     firePoint.right * bulletSpeed +
                     Vector3.up * bulletUpForce;

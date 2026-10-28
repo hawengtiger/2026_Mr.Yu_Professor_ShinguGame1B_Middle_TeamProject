@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class EnemyShooter : MonoBehaviour
@@ -5,42 +6,60 @@ public class EnemyShooter : MonoBehaviour
     [Header("총알 포물선")]
     public float bulletUpForce = 6f;
 
-    public GameObject bulletPrefab;     // EnemeyBullet
+    public GameObject bulletPrefab;
     public Transform firePoint;
     public float moveSpeed = 2f;
-    public float keepDistance = 8f;        // 여기까지만 다가옴
-    public float fireRange = 12f;            // 이 안이면 발사
-    public float fireInterval = 2f;            // 총알 타이밍
-    public float bulletSpeed = 10f;       // 총알 속도
+    public float keepDistance = 8f;
+    public float fireRange = 12f;
+    public float fireInterval = 2f;
+    public float bulletSpeed = 10f;
+
+    [Header("애니메이션")]
+    public Animator animator;
+    public float attackAnimationDuration = 0.5f;
 
     Transform player;
     float lastFireTime;
+    float attackEndTime;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // 자신의 모든 직속 자식 오브젝트 회전
         foreach (Transform child in transform)
         {
             child.localRotation *= Quaternion.Euler(0f, 180f, 0f);
         }
 
         GameObject p = GameObject.FindWithTag("Player");
-        if (p != null) player = p.transform;
+
+        if (p != null)
+            player = p.transform;
+
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
         lastFireTime = Time.time;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (player == null) return;
 
         Vector3 toPlayer = player.position - transform.position;
-        toPlayer.y = 0;
-        float distance = toPlayer.magnitude;
-        transform.forward = toPlayer.normalized;
+        toPlayer.y = 0f;
 
-        if (distance > keepDistance)        // 다가가기
+        float distance = toPlayer.magnitude;
+
+        if (distance > 0.001f)
+            transform.forward = toPlayer.normalized;
+
+        // 공격 애니메이션 유지 시간
+        if (animator != null && Time.time >= attackEndTime)
+        {
+            animator.SetFloat("Attack", 0f);
+        }
+
+        // 플레이어에게 접근
+        if (distance > keepDistance)
         {
             float move = moveSpeed * Time.deltaTime;
             transform.position += transform.forward * move;
@@ -48,6 +67,7 @@ public class EnemyShooter : MonoBehaviour
 
         bool inRange = distance < fireRange;
         bool ready = Time.time >= lastFireTime + fireInterval;
+
         if (inRange && ready)
         {
             lastFireTime = Time.time;
@@ -57,6 +77,16 @@ public class EnemyShooter : MonoBehaviour
 
     void Shoot()
     {
+        if (bulletPrefab == null || firePoint == null)
+            return;
+
+        // 공격 애니메이션 활성화
+        if (animator != null)
+        {
+            animator.SetFloat("Attack", 1f);
+            attackEndTime = Time.time + attackAnimationDuration;
+        }
+
         Vector3 target = player.position + Vector3.up * 2f;
         Vector3 dir = (target - firePoint.position).normalized;
 
@@ -68,9 +98,11 @@ public class EnemyShooter : MonoBehaviour
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
 
-        // 플레이어 방향으로 발사 + 위쪽으로 힘 추가
-        rb.linearVelocity =
-            dir * bulletSpeed +
-            Vector3.up * bulletUpForce;
+        if (rb != null)
+        {
+            rb.linearVelocity =
+                dir * bulletSpeed +
+                Vector3.up * bulletUpForce;
+        }
     }
 }

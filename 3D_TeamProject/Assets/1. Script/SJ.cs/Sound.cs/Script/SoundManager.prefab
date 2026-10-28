@@ -306,7 +306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   musicSounds:
   - name: main
-    clip: {fileID: 8300000, guid: 35ad5c9d9abcf0747a4db083d349d591, type: 3}
+    clip: {fileID: 8300000, guid: 83cc1a4df56da7d48a0ad46ef83d6aba, type: 3}
   sfxSounds:
   - name: BT
     clip: {fileID: 8300000, guid: 039ecf7af2462ba4b94df05ffa43405c, type: 3}
@@ -314,5 +314,11 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: d5d7e03202d67fc46a114bf8b2d13121, type: 3}
   - name: Setting
     clip: {fileID: 8300000, guid: 01ce0b3eabafb254f8cd5d6c60fb1cd6, type: 3}
+  - name: Sword
+    clip: {fileID: 8300000, guid: 4792be7e495b50545a528c8dc6be1d8f, type: 3}
+  - name: SwordSkill
+    clip: {fileID: 8300000, guid: 86a9c0420b6875147836da68045fe188, type: 3}
+  - name: Dagger
+    clip: {fileID: 8300000, guid: d2568961556ee8645be3197b373648c5, type: 3}
   musicSource: {fileID: 3633061369831715444}
   sfxSource: {fileID: 6436592022395909622}

@@ -9,8 +9,7 @@ public enum BulletType
 
 public class Bullet : MonoBehaviour
 {
-    [Header("총알 포물선")]
-    public float bulletUpForce = 6f;
+
 
     [Header("총알 설정")]
     public BulletType bulletType;

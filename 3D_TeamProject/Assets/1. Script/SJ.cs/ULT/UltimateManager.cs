@@ -35,6 +35,7 @@ public class UltimateManager : MonoBehaviour
         if (Keyboard.current != null &&
     Keyboard.current.f2Key.wasPressedThisFrame)
         {
+            SoundManager.Instance.PlaySFX("SwordSkill");
             meleeUltimate.UseSkill();
         }
     }

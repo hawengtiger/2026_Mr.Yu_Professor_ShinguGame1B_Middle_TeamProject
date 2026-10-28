@@ -901,6 +901,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8914207829204841315, guid: 834abb3ae3387ef48b86102b4d2a4e42, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 1904b3a51a93e7e43911bcfecedfd476, type: 2}
     - target: {fileID: 9127683780255680933, guid: 834abb3ae3387ef48b86102b4d2a4e42, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -958,6 +962,8 @@ MonoBehaviour:
   fireRange: 12
   fireInterval: 2
   bulletSpeed: 10
+  animator: {fileID: 0}
+  attackAnimationDuration: 0.5
 --- !u!54 &7161409474610438783
 Rigidbody:
   m_ObjectHideFlags: 0
