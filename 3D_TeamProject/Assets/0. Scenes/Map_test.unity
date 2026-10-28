@@ -14243,6 +14243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dba8ecde49cd744192ede14bfb71027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PayloadController
+  clearHpText: {fileID: 1616037088}
+  rankingText: {fileID: 519929125}
   wheels:
   - {fileID: 1111833232}
   - {fileID: 324362766}
