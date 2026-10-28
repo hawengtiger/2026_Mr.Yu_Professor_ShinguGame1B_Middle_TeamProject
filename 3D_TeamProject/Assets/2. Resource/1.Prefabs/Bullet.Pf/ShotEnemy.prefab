@@ -832,7 +832,7 @@ MonoBehaviour:
   animator: {fileID: 8469709857325073250}
   moveSpeed: 2.5
   detectRange: 30
-  attackRange: 1
+  attackRange: 2
   damage: 100
   attackCooldown: 1
   rotationSpeed: 10

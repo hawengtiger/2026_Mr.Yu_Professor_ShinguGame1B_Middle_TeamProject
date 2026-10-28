@@ -7,6 +7,9 @@ using Unity.VisualScripting;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [Header("총알 포물선")]
+    public float bulletUpForce = 6f;
+
     [Header("공격 애니메이션")]
     public Animator animator;
 
@@ -51,7 +54,9 @@ public class PlayerAttack : MonoBehaviour
 
                 GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
                 Rigidbody rb = bullet.GetComponent<Rigidbody>();
-                rb.linearVelocity = firePoint.right * bulletSpeed + firePoint.up * 2;
+                rb.linearVelocity =
+                    firePoint.right * bulletSpeed +
+                    Vector3.up * bulletUpForce;
                 break;
         }
     }

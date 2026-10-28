@@ -950,6 +950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01ce9383a394ad488dcc59ef5016940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyShooter
+  bulletUpForce: 4
   bulletPrefab: {fileID: 9172125014192408282, guid: d93afac24e0c3ae4aaea99b66f7272e4, type: 3}
   firePoint: {fileID: 8803907074790083381}
   moveSpeed: 2

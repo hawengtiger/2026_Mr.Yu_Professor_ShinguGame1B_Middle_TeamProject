@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class PayloadAuraHitBox : MonoBehaviour
 {
+    [Header("애니메이션")]
+    public Animator animator;
+
     [SerializeField] private List<GameObject> enemies = new List<GameObject>();
 
     private PayloadController payload;
@@ -29,16 +32,24 @@ public class PayloadAuraHitBox : MonoBehaviour
         if (payload == null)
             return;
 
-        // 죽어서 삭제되거나 비활성화된 몬스터 제거
+        // 죽거나 비활성화된 몬스터 제거
         enemies.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
 
         if (enemies.Count > 0)
         {
+            // 적이 있으면 화물 정지
             payload.moveSpeed = 0f;
+
+            if (animator != null)
+                animator.SetFloat("Stop", 1f);
         }
         else
         {
+            // 적이 없으면 화물 이동
             payload.moveSpeed = defaultSpeed;
+
+            if (animator != null)
+                animator.SetFloat("Stop", 0f);
         }
     }
 

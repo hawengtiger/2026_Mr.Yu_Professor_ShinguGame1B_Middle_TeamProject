@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class EnemyShooter : MonoBehaviour
 {
+    [Header("총알 포물선")]
+    public float bulletUpForce = 6f;
+
     public GameObject bulletPrefab;     // EnemeyBullet
     public Transform firePoint;
     public float moveSpeed = 2f;
@@ -57,8 +60,17 @@ public class EnemyShooter : MonoBehaviour
         Vector3 target = player.position + Vector3.up * 2f;
         Vector3 dir = (target - firePoint.position).normalized;
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(dir));
+        GameObject bullet = Instantiate(
+            bulletPrefab,
+            firePoint.position,
+            Quaternion.LookRotation(dir)
+        );
+
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        rb.linearVelocity = dir * bulletSpeed;
+
+        // 플레이어 방향으로 발사 + 위쪽으로 힘 추가
+        rb.linearVelocity =
+            dir * bulletSpeed +
+            Vector3.up * bulletUpForce;
     }
 }
